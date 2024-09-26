@@ -92,6 +92,42 @@ def convertAgeToNumber(age_in_words):
 df['Age_at_diagnosis'] = df['Age_at_diagnosis'].map(convertAgeToNumber)
 df.Age_at_diagnosis[0]
 
+# Fill missing values with mode
+
+modes = df.mode().iloc[0] 
+
+df.fillna(modes, inplace=True)
+
+
+# Process Grade column
+
+df['Grade'] = np.where(df['Grade'] == 'LGG', 0 , 1)
+
+
+# Define categorical and continuous columns
+
+categorical=['Gender', 'Race', 'IDH1', 
+
+      'TP53', 'ATRX', 'PTEN', 'EGFR', 'CIC', 'MUC16', 'PIK3CA', 'NF1', 
+
+      'PIK3R1', 'FUBP1', 'RB1', 'NOTCH1', 'BCOR', 'CSMD3', 'SMARCA4', 
+
+      'GRIN2A', 'IDH2', 'FAT4', 'PDGFRA']
+
+continuos=['Age_at_diagnosis']
+
+dependent="Grade"
+
+
+# One-hot encode categorical columns
+
+df_onehot = pd.get_dummies(df, columns=categorical)
+
+
+# Print the resulting dataframe
+
+print(df_onehot.head())
+
 
 # In[6]:
 
